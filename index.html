@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анимация тенге с разным приростом</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .counter {
+      position: absolute;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      font-size: 4rem;
+      text-align: center;
+      z-index: 1;
+    }
+
+    #counter1 { top: 30%; left: 13.5%; font-size: 1.5rem; }
+    #counter2 { top: 31.5%; right: 39%; font-size: 1.5rem; }
+    #counter3 { bottom: 40.5%; left: 63%; font-size: 1.5rem; }
+    #counter4 { bottom: 46.5%; right: 44%; font-size: 1.5rem; }
+    #counter5 { top: 41%; left: 65%; transform: translate(-50%, -50%); font-size: 1.5rem; }
+  </style>
+</head>
+<body>
+<style>
+  #exchange-rates {
+    position: absolute;
+    top: 10%;
+    right: 2%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    line-height: 2.2rem;
+    z-index: 1000;
+  }
+</style>
+
+<div id="exchange-rates">Загрузка...</div>
+
+<script>
+  async function updateExchangeRates() {
+    try {
+      const response = await fetch('https://open.er-api.com/v6/latest/USD');
+      const data = await response.json();
+
+      if (data.result === 'success') {
+        const rates = data.rates;
+        const usdToKzt = (rates.KZT).toFixed(2);
+        const eurToKzt = (rates.KZT / rates.EUR).toFixed(2);
+        const rubToKzt = (rates.KZT / rates.RUB).toFixed(2);
+
+        document.getElementById('exchange-rates').innerHTML = `
+          💵 USD: ${usdToKzt} ₸<br>
+          💶 EUR: ${eurToKzt} ₸<br>
+          🇷🇺 RUB: ${rubToKzt} ₸
+        `;
+      } else {
+        document.getElementById('exchange-rates').textContent = 'Ошибка загрузки курсов валют.';
+      }
+    } catch (error) {
+      document.getElementById('exchange-rates').textContent = 'Ошибка загрузки курсов валют.';
+      console.error('Ошибка:', error);
+    }
+  }
+
+  updateExchangeRates();
+  setInterval(updateExchangeRates, 30000); // Обновление каждые 30 секунд
+</script>
+  <video class="video-background" autoplay muted loop>
+    <source src="video/astana.mp4" type="video/mp4">
+    Ваш браузер не поддерживает видео.
+  </video>
+
+  <!-- Пять счётчиков id1= oral id2=astana id3=Balskh id4=Zhez id5= KRG  -->
+  <div class="counter" id="counter1">0 ₸</div>
+  <div class="counter" id="counter2">0 ₸</div>
+  <div class="counter" id="counter3">0 ₸</div>
+  <div class="counter" id="counter4">0 ₸</div>
+  <div class="counter" id="counter5">0 ₸</div>
+
+  <script>
+    // Настройки для каждого счётчика: элемент, цель, текущий, интервал
+    const counters = [
+      { id: 'counter1', target: 35000000, current: 0, multiplier: 0.2 },
+      { id: 'counter2', target: 450000000, current: 0, multiplier: 2.0 },
+      { id: 'counter3', target: 23000000, current: 0, multiplier: 0.3 },
+      { id: 'counter4', target: 38000000, current: 0, multiplier: 0.5 },
+      { id: 'counter5', target: 320000000, current: 0, multiplier: 1.4 },
+    ];
+
+    function animateCounter(counter) {
+      const el = document.getElementById(counter.id);
+
+      function update() {
+        const remaining = counter.target - counter.current;
+        if (remaining <= 0) {
+          el.textContent = counter.target.toLocaleString('de-DE') + ' ₸';
+          return;
+        }
+
+        let baseIncrement = Math.floor(Math.random() * 50000) + 500;
+        let increment = Math.min(remaining, baseIncrement * counter.multiplier);
+	
+        counter.current += increment;
+        el.textContent = counter.current.toLocaleString('de-DE') + ' ₸';
+
+        const delay = Math.floor(Math.random() * 42000) + 500;
+        setTimeout(update, delay);
+      }
+
+      update();
+    }
+
+    counters.forEach(animateCounter);
+  </script>
+
+</body>
+</html>
