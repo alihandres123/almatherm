@@ -107,17 +107,17 @@
   <script>
     // Настройки для каждого счётчика: элемент, цель, текущий, интервал
     const counters = [
-      { id: 'counter1', target: 35000000, current: 0, multiplier: 0.2 },
-      { id: 'counter2', target: 450000000, current: 0, multiplier: 2.0 },
-      { id: 'counter3', target: 23000000, current: 0, multiplier: 0.3 },
-      { id: 'counter4', target: 38000000, current: 0, multiplier: 0.5 },
-      { id: 'counter5', target: 320000000, current: 0, multiplier: 1.4 },
+      { id: 'counter1', target: 35000000, current: 0 },
+      { id: 'counter2', target: 450000000, current: 120 626 585 },
+      { id: 'counter3', target: 23000000, current: 11 946 949 },
+      { id: 'counter4', target: 38000000, current: 18 934 234 },
+      { id: 'counter5', target: 320000000, current: 91 630 097 },
     ];
 
     function animateCounter(counter) {
       const el = document.getElementById(counter.id);
 
-      function update() {
+      <!--function update() {
         const remaining = counter.target - counter.current;
         if (remaining <= 0) {
           el.textContent = counter.target.toLocaleString('de-DE') + ' ₸';
@@ -131,7 +131,7 @@
         el.textContent = counter.current.toLocaleString('de-DE') + ' ₸';
 
         const delay = Math.floor(Math.random() * 42000) + 500;
-        setTimeout(update, delay);
+        setTimeout(update, delay);-->
       }
 
       update();
