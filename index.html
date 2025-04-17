@@ -45,6 +45,53 @@
   </style>
 </head>
 <body>
+	<!-- 📢 News Ticker (прикреплён снизу) -->
+<div style="position:fixed;bottom:0;left:0;width:100%;z-index:9999;background:#f2f2f2;border-top:1px solid #ccc;overflow:hidden;white-space:nowrap;padding:10px 0;">
+  <div id="tickerNews" style="display:inline-block;padding-left:100%;animation:scroll 25s linear infinite;">
+    Загрузка новостей...
+  </div>
+</div>
+
+<style>
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+body {
+  padding-bottom: 40px; /* Чтобы строка не перекрывала контент */
+}
+</style>
+
+<script>
+  (function () {
+    const apiKey = '5a587a8c39362c1790d74e16d4d23492';
+    const urls = [
+      `https://gnews.io/api/v4/top-headlines?lang=ru&token=${apiKey}`,
+      `https://gnews.io/api/v4/search?q=Казахстан&lang=ru&token=${apiKey}`
+    ];
+    const ticker = document.getElementById('tickerNews');
+
+    Promise.all(urls.map(url => fetch(url).then(res => res.json())))
+      .then(allData => {
+        ticker.innerHTML = '';
+        const allArticles = allData.flatMap(data => data.articles);
+        allArticles.forEach(article => {
+          const span = document.createElement('span');
+          span.style.cssText = 'display:inline-block;margin-right:50px;color:#333;';
+          span.textContent = `📰 ${article.title}`;
+          ticker.appendChild(span);
+        });
+        if (allArticles.length === 0) {
+          ticker.textContent = 'Нет доступных новостей.';
+        }
+      })
+      .catch(error => {
+        console.error('Ошибка загрузки новостей:', error);
+        ticker.textContent = 'Не удалось загрузить новости.';
+      });
+  })();
+</script>
+
 <style>
   #exchange-rates {
     position: absolute;
