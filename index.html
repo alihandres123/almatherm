@@ -45,21 +45,37 @@
   </style>
 </head>
 <body>
-<div id="newsTicker"></div>
+<!-- 📢 News Ticker (прикреплён снизу) -->
+<div style="position:fixed;bottom:0;left:0;width:100%;z-index:9999;background:#f2f2f2;border-top:1px solid #ccc;overflow:hidden;white-space:nowrap;padding:10px 0;">
+  <div id="tickerNews" style="display:inline-block;padding-left:100%;animation:scroll 25s linear infinite;">
+    Загрузка новостей...
+  </div>
+</div>
+
+<style>
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+body {
+  padding-bottom: 40px; /* Чтобы строка не перекрывала контент */
+}
+</style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rss-parser/3.10.0/rss-parser.min.js"></script>
 <script>
   const parser = new RSSParser();
-  const feedUrl = https://www.kazinform.kz/rss;
+  const feedUrl = 'https://www.kazinform.kz/rss';
 
   async function loadNews() {
     const feed = await parser.parseURL(feedUrl);
-    const ticker = document.getElementById('newsTicker');
-    ticker.innerHTML = feed.items.map(item => `<span>${item.title}</span>`).join(' | ');
+    const ticker = document.getElementById('tickerNews');
+    ticker.innerHTML = feed.items.map(item => `<span style="margin-right:50px;">📰 ${item.title}</span>`).join(' | ');
   }
 
   loadNews();
 </script>
+
 <style>
   #exchange-rates {
     position: absolute;
