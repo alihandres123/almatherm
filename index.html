@@ -62,19 +62,30 @@ body {
 }
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/rss-parser/3.10.0/rss-parser.min.js"></script>
 <script>
-  const parser = new RSSParser();
-  const feedUrl = 'https://sadaq.kz/ru/rss/category/novosti';
-
   async function loadNews() {
-    const feed = await parser.parseURL(feedUrl);
-    const ticker = document.getElementById('tickerNews');
-    ticker.innerHTML = feed.items.map(item => `<span style="margin-right:50px;">📰 ${item.title}</span>`).join(' | ');
+    const url = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://sadaq.kz/ru/rss/category/novosti');
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+      const items = xmlDoc.getElementsByTagName('item');
+      const ticker = document.getElementById('tickerNews');
+      
+      ticker.innerHTML = Array.from(items).map(item => {
+        const title = item.getElementsByTagName('title')[0].textContent;
+        return `<span style="margin-right:50px;">📰 ${title}</span>`;
+      }).join(' | ');
+    } catch (error) {
+      console.error('Ошибка загрузки новостей:', error);
+      document.getElementById('tickerNews').textContent = 'Не удалось загрузить новости.';
+    }
   }
 
   loadNews();
 </script>
+
 
 <style>
   #exchange-rates {
