@@ -65,7 +65,7 @@ body {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rss-parser/3.10.0/rss-parser.min.js"></script>
 <script>
   const parser = new RSSParser();
-  const feedUrl = 'https://www.kazinform.kz/rss';
+  const feedUrl = 'https://sadaq.kz/ru/rss/category/novosti';
 
   async function loadNews() {
     const feed = await parser.parseURL(feedUrl);
