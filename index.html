@@ -48,7 +48,7 @@
 <!-- 📢 News Ticker (прикреплён снизу) -->
 <div style="position:fixed;bottom:0;left:0;width:100%;z-index:9999;background:#f2f2f2;border-top:1px solid #ccc;overflow:hidden;white-space:nowrap;padding:10px 0;">
   <div id="tickerNews" style="display:inline-block;padding-left:100%;animation:scroll 110s linear infinite;">
-    Загрузка новостей...
+    Ваня - виноват Никита - лучший сотрудник
   </div>
 </div>
 
@@ -68,7 +68,7 @@ body {
 
 <script>
   async function loadNews() {
-    const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://sadaq.kz/ru/rss/category/novosti');
+    const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent();
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -78,11 +78,11 @@ body {
         const newsItems = data.items.map(item => `<span style="margin-right:50px;">📰 ${item.title}</span>`).join(' | ');
         ticker.innerHTML = newsItems + newsItems;  // Дублируем список для непрерывного потока
       } else {
-        ticker.textContent = 'Не удалось загрузить новости.';
+        ticker.textContent = 'Ваня - виноват Никита - лучший сотрудник.';
       }
     } catch (error) {
       console.error('Ошибка загрузки новостей:', error);
-      document.getElementById('tickerNews').textContent = 'Не удалось загрузить новости.';
+      document.getElementById('tickerNews').textContent = 'Ваня - виноват Никита - лучший сотрудник.';
     }
   }
 
