@@ -42,13 +42,28 @@
     #counter3 { bottom: 40.5%; left: 63%; font-size: 1.5rem; }
     #counter4 { bottom: 46.5%; right: 44%; font-size: 1.5rem; }
     #counter5 { top: 42.5%; left: 65%; transform: translate(-50%, -50%); font-size: 1.5rem; }
+	  #counter6 { top: 5%; left: 59%; font-size: 1.5rem; }
+	  #counter7 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter8 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter9 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter10 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter11 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter12 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter13 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter14 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter15 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter16 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter17 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter18 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter19 { top: 32%; left: 13.5%; font-size: 1.5rem; }
+	  #counter20 { top: 32%; left: 13.5%; font-size: 1.5rem; }
   </style>
 </head>
 <body>
 <!-- 📢 News Ticker (прикреплён снизу) -->
 <div style="position:fixed;bottom:0;left:0;width:100%;z-index:9999;background:#f2f2f2;border-top:1px solid #ccc;overflow:hidden;white-space:nowrap;padding:10px 0;">
   <div id="tickerNews" style="display:inline-block;padding-left:100%;animation:scroll 110s linear infinite;">
-    Ваня - виноват Никита - лучший сотрудник
+   Загрузка новостей...
   </div>
 </div>
 
@@ -78,11 +93,11 @@ body {
         const newsItems = data.items.map(item => `<span style="margin-right:50px;">📰 ${item.title}</span>`).join(' | ');
         ticker.innerHTML = newsItems + newsItems;  // Дублируем список для непрерывного потока
       } else {
-        ticker.textContent = 'Ваня - виноват Никита - лучший сотрудник.';
+        ticker.textContent = 'Ошибка загрузки новостей';
       }
     } catch (error) {
       console.error('Ошибка загрузки новостей:', error);
-      document.getElementById('tickerNews').textContent = 'Ваня - виноват Никита - лучший сотрудник.';
+      document.getElementById('tickerNews').textContent = 'Ошибка';
     }
   }
 
@@ -143,13 +158,27 @@ body {
     Ваш браузер не поддерживает видео.
   </video>
 
-  <!-- Пять счётчиков id1= oral id2=astana id3=Balskh id4=Zhez id5= KRG  -->
+  <!-- Пять счётчиков id1= oral id2=astana id3=Balskh id4=Zhez id5= KRG -->
   <div class="counter" id="counter1">0 ₸</div>
   <div class="counter" id="counter2">120 626 585 ₸</div>
   <div class="counter" id="counter3">11 946 949 ₸</div>
   <div class="counter" id="counter4">18 934 234 ₸</div>
   <div class="counter" id="counter5">91 630 097 ₸</div>
-
+<div class="counter" id="counter6">91 630 097 ₸</div>
+	<div class="counter" id="counter7">7777 ₸</div>
+	<div class="counter" id="counter8">91 630 097 ₸</div>
+	<div class="counter" id="counter9">91 630 097 ₸</div>
+	<div class="counter" id="counter10">91 630 097 ₸</div>
+	<div class="counter" id="counter11">91 630 097 ₸</div>
+	<div class="counter" id="counter12">91 630 097 ₸</div>
+	<div class="counter" id="counter13">91 630 097 ₸</div>
+	<div class="counter" id="counter14">91 630 097 ₸</div>
+	<div class="counter" id="counter15">91 630 097 ₸</div>
+	<div class="counter" id="counter16">91 630 097 ₸</div>
+	<div class="counter" id="counter17">91 630 097 ₸</div>
+	<div class="counter" id="counter18">91 630 097 ₸</div>
+	<div class="counter" id="counter19">91 630 097 ₸</div>
+	<div class="counter" id="counter20">91 630 097 ₸</div>
   <script>
     // Настройки для каждого счётчика: элемент, цель, текущий, интервал
     const counters = [
