@@ -62,8 +62,8 @@
 <body>
 <!-- 📢 News Ticker (прикреплён снизу) -->
 <div style="position:fixed;bottom:0;left:0;width:100%;z-index:9999;background:#f2f2f2;border-top:1px solid #ccc;overflow:hidden;white-space:nowrap;padding:10px 0;">
-  <div id="tickerNews" style="display:inline-block;padding-left:100%;animation:scroll 110s linear infinite;">
-   Загрузка новостей...
+  <div id="tickerNews" style="display:inline-block;padding-left:100%;animation:scroll 120s linear infinite;">
+    Загрузка новостей...
   </div>
 </div>
 
@@ -83,7 +83,7 @@ body {
 
 <script>
   async function loadNews() {
-    const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(https://nationalbank.kz/rss/rates_all.xml);
+    const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://nationalbank.kz/rss/rates_all.xml');
     try {
       const response = await fetch(url);
       const data = await response.json();
@@ -93,16 +93,17 @@ body {
         const newsItems = data.items.map(item => `<span style="margin-right:50px;">📰 ${item.title}</span>`).join(' | ');
         ticker.innerHTML = newsItems + newsItems;  // Дублируем список для непрерывного потока
       } else {
-        ticker.textContent = 'Ошибка загрузки новостей';
+        ticker.textContent = 'Не удалось загрузить новости.';
       }
     } catch (error) {
       console.error('Ошибка загрузки новостей:', error);
-      document.getElementById('tickerNews').textContent = 'Ошибка';
+      document.getElementById('tickerNews').textContent = 'Не удалось загрузить новости.';
     }
   }
 
   loadNews();
 </script>
+
 
 
 
