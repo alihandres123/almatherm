@@ -60,9 +60,9 @@
   </style>
 </head>
 <body>
-<!-- 📢 Финансовые новости (бегущая строка снизу) -->
-<div style="position:fixed;bottom:0;left:0;width:100%;z-index:9999;background:#f2f2f2;border-top:1px solid #ccc;overflow:hidden;white-space:nowrap;padding:10px 0;">
-  <div id="tickerNews" style="display:inline-block;padding-left:100%;animation:scroll 100s linear infinite;">
+<!-- 📉 Финансовые новости снизу -->
+<div style="position:fixed;bottom:0;left:0;width:100%;z-index:9999;background:#f8f8f8;border-top:1px solid #ccc;overflow:hidden;white-space:nowrap;padding:10px 0;">
+  <div id="tickerNews" style="display:inline-block;padding-left:100%;animation:scroll 120s linear infinite;">
     Загрузка новостей...
   </div>
 </div>
@@ -79,36 +79,33 @@ body {
 
 <script>
   async function loadNews() {
-    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://www.finam.ru/international/advanced/rsspoint/');
+    const url = 'https://rss2json.io/api/rss?url=' + encodeURIComponent('https://www.finam.ru/international/advanced/rsspoint/');
+
     try {
-      const response = await fetch(proxyUrl);
+      const response = await fetch(url);
       const data = await response.json();
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(data.contents, "text/xml");
-      const items = xml.querySelectorAll("item");
       const ticker = document.getElementById("tickerNews");
 
-      if (items.length === 0) {
+      if (!data.items || data.items.length === 0) {
         ticker.textContent = "Нет новостей для отображения.";
         return;
       }
 
-      let content = "";
-      items.forEach(item => {
-        const title = item.querySelector("title").textContent;
-        content += `<span style="margin-right:50px;">💹 ${title}</span>`;
-      });
+      const content = data.items.map(item =>
+        `<span style="margin-right:50px;">💹 ${item.title}</span>`
+      ).join('');
 
-      // Повторим 2 раза для плавности
+      // Повторим, чтобы лента была длиннее
       ticker.innerHTML = content + content;
     } catch (error) {
-      console.error("Ошибка загрузки новостей:", error);
+      console.error("Ошибка:", error);
       document.getElementById("tickerNews").textContent = "Не удалось загрузить новости.";
     }
   }
 
   loadNews();
 </script>
+
 
 
 
